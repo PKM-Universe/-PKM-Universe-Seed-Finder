@@ -1,0 +1,78 @@
+name: PKM-Universe Seed Finder Build
+on: [push, workflow_dispatch]
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+      - name: Restore dependencies
+        run: dotnet restore PLZASeedFinderPlugin.sln
+      - name: Build
+        run: dotnet build PLZASeedFinderPlugin.sln -c Release --no-restore
+
+      - name: Get Version with Revision
+        id: version
+        run: |
+          $date = Get-Date -Format "yy.MM.dd"
+          $baseTag = "v$date"
+
+          # Get existing tags for today
+          $existingTags = git tag -l "$baseTag*" 2>$null
+
+          if ($existingTags) {
+            # Find highest revision
+            $maxRev = 0
+            foreach ($tag in $existingTags) {
+              if ($tag -match "rev\.(\d+)") {
+                $rev = [int]$matches[1]
+                if ($rev -gt $maxRev) { $maxRev = $rev }
+              }
+            }
+            $newRev = $maxRev + 1
+            $version = "$date-rev.$newRev"
+          } else {
+            $version = $date
+          }
+
+          echo "VERSION=$version" >> $env:GITHUB_OUTPUT
+          echo "Version: $version"
+        shell: pwsh
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: v${{ steps.version.outputs.VERSION }}
+          name: PKM-Universe Seed Finder v${{ steps.version.outputs.VERSION }}
+          body: |
+            ## 🎯 PKM-Universe Seed Finder Plugin
+
+            Pokemon Legends Z-A Seed Finder Plugin for PKHeX
+
+            ### 📥 Installation
+            1. Download `PLZASeedFinderPlugin.dll`
+            2. Place in your PKHeX `plugins` folder
+            3. Restart PKHeX
+
+            ### ✨ Features
+            - Find your seed for Pokemon Legends Z-A
+            - Works with PKHeX and PKM-Universe PKHeX
+
+            ---
+            Made with ❤️ by PKM-Universe
+          files: |
+            PLZASeedFinderPlugin/bin/Release/net9.0-windows/PLZASeedFinderPlugin.dll
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: PKM-Universe-Seed-Finder-v${{ steps.version.outputs.VERSION }}
+          path: PLZASeedFinderPlugin/bin/Release/net9.0-windows/PLZASeedFinderPlugin.dll
