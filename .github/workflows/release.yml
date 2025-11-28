@@ -1,4 +1,4 @@
-name: PKM-Universe Seed Finder Build
+name: PKM-Universe Seed Finders Build
 on: [push, workflow_dispatch]
 permissions:
   contents: write
@@ -14,9 +14,9 @@ jobs:
         with:
           dotnet-version: '9.0.x'
       - name: Restore dependencies
-        run: dotnet restore PLZASeedFinderPlugin.sln
-      - name: Build
-        run: dotnet build PLZASeedFinderPlugin.sln -c Release --no-restore
+        run: dotnet restore PKM-Universe-Seed-Finders.sln
+      - name: Build All Plugins
+        run: dotnet build PKM-Universe-Seed-Finders.sln -c Release --no-restore
 
       - name: Get Version with Revision
         id: version
@@ -46,33 +46,54 @@ jobs:
           echo "Version: $version"
         shell: pwsh
 
+      - name: Create Plugins ZIP
+        run: |
+          mkdir ./release-plugins
+          Copy-Item PLZASeedFinderPlugin/bin/Release/net9.0-windows/PLZASeedFinderPlugin.dll ./release-plugins/
+          Copy-Item SVSeedFinderPlugin/bin/Release/net9.0-windows/SVSeedFinderPlugin.dll ./release-plugins/
+          Copy-Item SWSHSeedFinderPlugin/bin/Release/net9.0-windows/SWSHSeedFinderPlugin.dll ./release-plugins/
+          Compress-Archive -Path ./release-plugins/* -DestinationPath ./PKM-Universe-Seed-Finders-v${{ steps.version.outputs.VERSION }}.zip
+        shell: pwsh
+
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: v${{ steps.version.outputs.VERSION }}
-          name: PKM-Universe Seed Finder v${{ steps.version.outputs.VERSION }}
+          name: PKM-Universe Seed Finders v${{ steps.version.outputs.VERSION }}
           body: |
-            ## 🎯 PKM-Universe Seed Finder Plugin
+            ## 🎯 PKM-Universe Seed Finder Plugins
 
-            Pokemon Legends Z-A Seed Finder Plugin for PKHeX
+            Complete collection of Seed Finder plugins for PKHeX!
+
+            ### 📦 Included Plugins
+            | Plugin | Game |
+            |--------|------|
+            | `PLZASeedFinderPlugin.dll` | Pokemon Legends Z-A |
+            | `SVSeedFinderPlugin.dll` | Pokemon Scarlet/Violet |
+            | `SWSHSeedFinderPlugin.dll` | Pokemon Sword/Shield |
 
             ### 📥 Installation
-            1. Download `PLZASeedFinderPlugin.dll`
+            1. Download individual DLLs or the full ZIP
             2. Place in your PKHeX `plugins` folder
             3. Restart PKHeX
+            4. Find them in Tools menu
 
             ### ✨ Features
-            - Find your seed for Pokemon Legends Z-A
+            - Find valid seeds for legal Pokemon generation
+            - Supports shiny hunting with specific IVs
             - Works with PKHeX and PKM-Universe PKHeX
 
             ---
             Made with ❤️ by PKM-Universe
           files: |
+            ./PKM-Universe-Seed-Finders-v${{ steps.version.outputs.VERSION }}.zip
             PLZASeedFinderPlugin/bin/Release/net9.0-windows/PLZASeedFinderPlugin.dll
+            SVSeedFinderPlugin/bin/Release/net9.0-windows/SVSeedFinderPlugin.dll
+            SWSHSeedFinderPlugin/bin/Release/net9.0-windows/SWSHSeedFinderPlugin.dll
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/upload-artifact@v4
         with:
-          name: PKM-Universe-Seed-Finder-v${{ steps.version.outputs.VERSION }}
-          path: PLZASeedFinderPlugin/bin/Release/net9.0-windows/PLZASeedFinderPlugin.dll
+          name: PKM-Universe-Seed-Finders-v${{ steps.version.outputs.VERSION }}
+          path: ./release-plugins/
