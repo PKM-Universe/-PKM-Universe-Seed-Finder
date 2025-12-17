@@ -1,12 +1,20 @@
-![GitHub Release](https://img.shields.io/github/v/release/PKM-Universe/-PKM-Universe-Seed-Finder)
-![GitHub Downloads](https://img.shields.io/github/downloads/PKM-Universe/-PKM-Universe-Seed-Finder/total?color=violet)
-![Build Status](https://img.shields.io/github/actions/workflow/status/PKM-Universe/-PKM-Universe-Seed-Finder/release.yml)
+<div align="center">
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/PKM-Universe/PKHeX-ALL-IN-ONE/main/banner.svg" alt="PKM-Universe Banner" width="600">
-</p>
+# PKM Universe Seed Finder Plugins
 
-# PKM-Universe Seed Finder Plugins
+### Pokemon Seed Finder Plugins for PKHeX
+
+[![GitHub Release](https://img.shields.io/github/v/release/PKM-Universe/-PKM-Universe-Seed-Finder?style=for-the-badge&color=blue)](https://github.com/PKM-Universe/-PKM-Universe-Seed-Finder/releases/latest)
+[![GitHub Downloads](https://img.shields.io/github/downloads/PKM-Universe/-PKM-Universe-Seed-Finder/total?style=for-the-badge&color=green)](https://github.com/PKM-Universe/-PKM-Universe-Seed-Finder/releases)
+[![Discord](https://img.shields.io/badge/Discord-PKM_Universe-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/pkm-universe)
+
+**Generate valid, legal Pokemon by finding proper origin seeds**
+
+[<img src="https://img.shields.io/badge/DOWNLOAD_PLUGINS-Latest-blue?style=for-the-badge&logo=pokemon&logoColor=white&labelColor=red" alt="Download" height="40">](https://github.com/PKM-Universe/-PKM-Universe-Seed-Finder/releases/latest)
+
+---
+
+</div>
 
 Complete collection of **Seed Finder plugins** for PKHeX that generate **valid, legal Pokemon** by finding proper origin seeds.
 
@@ -52,7 +60,7 @@ Complete collection of **Seed Finder plugins** for PKHeX that generate **valid, 
 
 ## 🔗 Links
 
-- **PKM-Universe PKHeX**: [Download](https://github.com/PKM-Universe/PKHeX-ALL-IN-ONE/releases)
+- **PKHeX PKMUniverse**: [Download](https://github.com/PKM-Universe/-PKHeX-PKMUniverse---Custom-Pokemon-Save-Editor/releases)
 - **Discord**: [Join PKM-Universe](https://discord.gg/pkm-universe)
 - **Ko-fi**: [Support Us](https://ko-fi.com/pokemonlover8888)
 
@@ -85,6 +93,8 @@ This project is licensed under the MIT License.
 
 ---
 
-<p align="center">
-  Made with ❤️ by <a href="https://github.com/PKM-Universe">PKM-Universe</a>
-</p>
+<div align="center">
+
+**PKM Universe** | [PKHeX PKMUniverse](https://github.com/PKM-Universe/-PKHeX-PKMUniverse---Custom-Pokemon-Save-Editor) | [Discord](https://discord.gg/pkm-universe)
+
+</div>
